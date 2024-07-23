@@ -1,0 +1,237 @@
+exec --no-startup-id xrandr --output DisplayPort-2 --primary --right-of HDMI-A-0
+set $mod Mod4
+set $alt Mod1
+
+set $dp "DisplayPort-2"
+set $hdmi "HDMI-A-0"
+
+font pango:monospace 8
+
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
+
+#exec --no-startup-id lxsession
+exec --no-startup-id polkit-dumb-agent
+
+exec_always --no-startup-id ~/bin/polybar_launch.sh
+exec_always --no-startup-id ~/bin/picom-restart
+exec --no-startup-id telegram-desktop -startintray
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id dunst
+exec --no-startup-id flameshot
+exec --no-startup-id mpd
+exec --no-startup-id mpdas
+exec --no-startup-id mpDris2
+exec --no-startup-id clipit
+exec --no-startup-id unclutter
+exec --no-startup-id nm-applet
+
+################################
+###### KEYBOARD SHORTCUTS ######
+################################
+
+bindsym $mod+p exec --no-startup-id picom --experimental-backends
+bindsym $mod+Shift+p exec --no-startup-id killall picom
+bindsym $mod+c exec --no-startup-id gsimplecal
+
+bindsym $mod+F1 exec --no-startup-id cool-retro-term
+bindsym $mod+F2 exec --no-startup-id firefox
+bindsym $mod+F3 exec --no-startup-id thunar
+bindsym $mod+F4 exec --no-startup-id telegram-desktop
+bindsym $mod+F5 exec --no-startup-id pavucontrol
+
+# Volume & Media Keys
+#bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+#bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master '5%+'
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master '5%-'
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
+bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id mpc volume +5
+bindsym $mod+XF86AudioLowerVolume exec --no-startup-id mpc volume -5
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+bindsym $mod+Return exec alacritty
+bindsym $mod+q kill
+bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+Shift+d exec --no-startup-id rofi -show run
+bindsym $mod+Tab exec --no-startup-id rofi -show window
+
+# restart/reload i3
+bindsym $mod+$alt+r reload
+bindsym $mod+Shift+r restart
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# resize windows
+bindsym $mod+ctrl+h exec ~/bin/i3resize.sh left
+bindsym $mod+ctrl+j exec ~/bin/i3resize.sh down
+bindsym $mod+ctrl+k exec ~/bin/i3resize.sh up
+bindsym $mod+ctrl+l exec ~/bin/i3resize.sh right
+
+# split toggle
+bindsym $mod+b split h
+bindsym $mod+v split v
+bindsym $mod+e layout toggle split
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Always on top
+bindsym $mod+a sticky toggle
+
+# Screenshot tool
+bindsym Print exec flameshot gui
+
+# Lock screen
+bindsym $mod+Escape exec i3lock -c 050505 -u -e
+#bindsym $mod+Shift+t exec i3lock -c '#333333'
+
+bindsym $mod+Shift+e exec ~/bin/shutdown_menu
+
+# Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+set $ws11 "11: 1"
+set $ws12 "12: 2"
+set $ws13 "13: 3"
+set $ws14 "14: 4"
+set $ws15 "15: 5"
+set $ws16 "16: 6"
+set $ws17 "17: 7"
+set $ws18 "18: 8"
+set $ws19 "19: 9"
+set $ws20 "20: 10"
+
+workspace $ws1 output $dp
+workspace $ws2 output $dp
+workspace $ws3 output $dp
+workspace $ws4 output $dp
+workspace $ws5 output $dp
+workspace $ws6 output $dp
+workspace $ws7 output $dp
+workspace $ws8 output $dp
+workspace $ws9 output $dp
+workspace $ws10 output $dp
+
+
+workspace $ws11 output $hdmi
+workspace $ws12 output $hdmi
+workspace $ws13 output $hdmi
+workspace $ws14 output $hdmi
+workspace $ws15 output $hdmi
+workspace $ws16 output $hdmi
+workspace $ws17 output $hdmi
+workspace $ws18 output $hdmi
+workspace $ws19 output $hdmi
+workspace $ws20 output $hdmi
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+bindsym $alt+1 workspace $ws11
+bindsym $alt+2 workspace $ws12
+bindsym $alt+3 workspace $ws13
+bindsym $alt+4 workspace $ws14
+bindsym $alt+5 workspace $ws15
+bindsym $alt+6 workspace $ws16
+bindsym $alt+7 workspace $ws17
+bindsym $alt+8 workspace $ws18
+bindsym $alt+9 workspace $ws19
+bindsym $alt+0 workspace $ws20
+
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+
+bindsym $alt+Shift+1 move container to workspace $ws11
+bindsym $alt+Shift+2 move container to workspace $ws12
+bindsym $alt+Shift+3 move container to workspace $ws13
+bindsym $alt+Shift+4 move container to workspace $ws14
+bindsym $alt+Shift+5 move container to workspace $ws15
+bindsym $alt+Shift+6 move container to workspace $ws16
+bindsym $alt+Shift+7 move container to workspace $ws17
+bindsym $alt+Shift+8 move container to workspace $ws18
+bindsym $alt+Shift+9 move container to workspace $ws19
+bindsym $alt+Shift+0 move container to workspace $ws20
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+################################
+########## APPEARANCE ##########
+################################
+
+for_window [class="^.*"] border pixel 1
+gaps inner 12
+gaps outer 3
+#smart_gaps on
+smart_borders on
+#gaps top 25
+#gaps top -10
+set $mode_gaps Toggle gaps: (1) on (2) off
+bindsym $mod+g mode "$mode_gaps"
+mode "$mode_gaps" {
+    bindsym 1 mode "default", gaps inner all set 12, gaps outer all set 3
+    bindsym 2 mode "default", gaps inner all set 0, gaps outer all set 0
+    #bindsym 3 mode "default", gaps inner all set 0, gaps outer all set 0, gaps top all set -30
+    bindsym Escape mode "default"
+}
+
+# Window color settings
+# class                 border  backgr. text    indicator
+client.focused          #5e81ac #e5e5e5 #e5e5e5 #5e81ac
+client.unfocused        #222222 #222222 #aaaaaa #222222
+client.focused_inactive #222222 #222222 #a9a9a9 #222222
+client.placeholder      #222222 #222222 #aaaaaa #222222
+client.urgent           #d42121 #d42121 #f7f7f7 #d42121
+
+client.background       #242424

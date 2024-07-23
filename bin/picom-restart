@@ -1,0 +1,3 @@
+killall picom
+sleep 1
+picom --experimental-backends
